@@ -4,9 +4,14 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Wheel;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -15,6 +20,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+  private final CANSparkMax motor = new CANSparkMax(3, MotorType.kBrushless);
+  private final XboxController controller = new XboxController(0);
+  public static final Wheel wheel = new Wheel();
+
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -81,7 +90,49 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    // 1:
+    // Make the motor turn off when you release the A button
+    // if (controller.getAButton()) {
+    //   motor.set(0.25);
+    // }
+    //
+    // if (controller.getAButtonReleased()) {
+    //   motor.set(0);
+    // }
+
+    // 2:
+    // Make the motor turn on when you press the A button, speed up on the B button, and turn off on the Y button
+    // if (controller.getAButton() && !controller.getBButton()) {
+    //   motor.set(0.25);
+    // }
+    // else if (controller.getBButton() && controller.getAButton()) {
+    //   motor.set(0.5);
+    // }
+    // else if (controller.getYButton()){
+    //   motor.set(0);
+    // }
+
+    // 3: 
+    // Make the motor turn on when you press the A button, speed up when you press the A button again, and then turn off when you press it a third time. Bonus if the cycle can repeat
+    // double speed = 0.25;
+    // int count = 0;
+    // if (controller.getAButtonPressed()){
+    //   count += 1;
+    //   if (count == 1){
+    //     motor.set(speed);
+    //   }
+    //   if (count == 2){
+    //     speed += speed*1.5;
+    //     motor.set(speed);
+    //   }
+    //   if (count == 3){
+    //     motor.set(0);
+    //     count = 0;
+    //     speed = 0.25;
+    //   }
+    // }
+  }
 
   @Override
   public void testInit() {
