@@ -27,7 +27,7 @@ public class Turn extends Command {
   public Turn(double setpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.setpoint = setpoint;
-    addRequirements(Robot.simSystem);
+    addRequirements(Robot.flywheel);
   }
 
   // Called when the command is initially scheduled.
@@ -41,7 +41,7 @@ public class Turn extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double error = setpoint - Robot.flywheel.getPositionRad();
+    double error = setpoint - Robot.flywheel.getPosition();
     double proportionOutput = error * kP;
     Robot.flywheel.setVoltage(proportionOutput);
     SmartDashboard.putNumber("error", error / (2 * Math.PI * 360));
