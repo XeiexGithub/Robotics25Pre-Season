@@ -13,14 +13,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** An example command that uses an example subsystem. */
 public class Drive extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private double drivesetpoint;
+  private double kP;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Drive() {
+  public Drive(double drivesetpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.drivesetpoint = drivesetpoint;
     addRequirements(Robot.wheel);
   }
 
@@ -38,7 +41,7 @@ public class Drive extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Stoppped");
+    System.out.println("Stopped");
     Robot.wheel.setMotorVoltage(0);
   }
 

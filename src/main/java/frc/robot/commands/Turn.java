@@ -16,7 +16,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Turn extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private double setpoint;
-  private double kP = 0.4;
+  private double kP = 0.3;
+  private double kD = 0.015;
+  private double previouserror;
+  private double error;
 
   
   /**
@@ -41,16 +44,19 @@ public class Turn extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double error = setpoint - Robot.flywheel.getPosition();
-    double proportionOutput = error * kP;
-    Robot.flywheel.setVoltage(proportionOutput);
+    previouserror = error;
+    error = setpoint - Robot.flywheel.getPosition();
+    double deltaerror = error - previouserror;
+    double proportionOutput = error * kP + (deltaerror / 0.02) * kD;
+    Robot.flywheel.setMotorVoltage(proportionOutput);
     SmartDashboard.putNumber("error", error / (2 * Math.PI * 360));
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.flywheel.setVoltage(0);
+    Robot.flywheel.setMotorVoltage(0);
   }
 
   // Returns true when the command should end.

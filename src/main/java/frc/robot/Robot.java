@@ -24,8 +24,6 @@ import frc.robot.subsystems.Turning;
  * project.
  */
 public class Robot extends TimedRobot {
-  private final CANSparkMax motor = new CANSparkMax(3, MotorType.kBrushless);
-  private final XboxController controller = new XboxController(0);
   public static final Wheel wheel = new Wheel();
   public static final Turning flywheel = new Turning();
 
