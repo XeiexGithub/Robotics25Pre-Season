@@ -15,5 +15,17 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final double loopPeriodSec = 0.02;
+  }
+  public static class TurningConstants{
+    public static final double turningGearRatio = 12.8;
+    public static final double driveGearRatio = 6.75;
+
+    public static final double turningkP = 4;
+    public static final double turningkD = 0.02;
+
+    public static final int[] turningMotorIds = {4, 6, 8, 10};
+    public static final double[] turningEncoderOffsets = {26.191, 137.594, 71.455, 186.943};
+
   }
 }

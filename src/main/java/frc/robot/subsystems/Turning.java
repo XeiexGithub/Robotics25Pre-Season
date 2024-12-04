@@ -11,28 +11,27 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.subsystems.SwerveIO.SwerveData;
 
 public class Turning extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-    private SwerveIO swerveio;
-    private final FlywheelSim simSystem = new FlywheelSim(
-        DCMotor.getNEO(1), 6, 0.04);
-
-    private SwerveData data = new SwerveData();
-    public double positionDeg;
-    
+    private SwerveIO[] swerveio;
+    private SwerveData[] data;
     public Turning() {
       if (Robot.isSimulation()) {
-        swerveio = new TurningSim();
+        swerveio[0] = new TurningSim();
       } else {
-        swerveio = new TurningSpark();
+        for (int i = 0; i < 4; i++){
+          swerveio[i] = new TurningSpark(i);
+          data[i] = new SwerveData();
+        }
       }
     }
 
-    public double getPosition(){
-        return data.positionRad; // how do i get this 
+    public double getPosition(int index){
+        return data[index].positionRad; 
     }
 
   /**
@@ -41,12 +40,12 @@ public class Turning extends SubsystemBase {
    * @return a command
    */
 
-  public void setMotorVoltage(double speed) {
-    swerveio.setVoltage(speed);
+  public void setMotorVoltage(double speed, int index) {
+    swerveio[index].setVoltage(speed);
   }
 
-  public void stop() {
-    swerveio.setVoltage(0);
+  public void stop(int index) {
+    swerveio[index].setVoltage(0);
   }
 
   /**
@@ -61,6 +60,10 @@ public class Turning extends SubsystemBase {
 
   @Override
   public void periodic() {
+    for (int i = 0; i < 4; i++){
+      swerveio[i].updateData(data[i]);
+      SmartDashboard.putNumber("positionDeg: " + i, data[i].positionRad * 180/Math.PI);
+    }
     // simSystem.update(0.02);
     // position += (simSystem.getAngularVelocityRadPerSec() * 0.02);
     // SmartDashboard.putNumber("positionDeg", position * 180/Math.PI);
@@ -68,9 +71,5 @@ public class Turning extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {
-    swerveio.updateData(data);
-    data.positionRad += (simSystem.getAngularVelocityRadPerSec() * 0.02);
-    positionDeg = data.positionRad * 180/Math.PI;
-    SmartDashboard.putNumber("positionDeg", positionDeg);
   }
 }

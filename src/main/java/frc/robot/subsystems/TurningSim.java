@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.OperatorConstants;
 
 public class TurningSim implements SwerveIO {
     private final FlywheelSim simSystem = new FlywheelSim(
@@ -10,13 +11,13 @@ public class TurningSim implements SwerveIO {
 
     private double positionRad = 0;
     
-    public void SubsystemSim() {
+    TurningSim() {
         System.out.println("FlywheelSim instantiated");
     }
     
     @Override
     public void updateData(SwerveData data) {
-        simSystem.update(SimConstants.loopPeriodSec);
+        simSystem.update(OperatorConstants.loopPeriodSec);
         positionRad += (simSystem.getAngularVelocityRadPerSec() * 0.02);
         data.positionRad = positionRad;
     }
@@ -33,7 +34,5 @@ public class TurningSim implements SwerveIO {
     } 
 
 
-    public void simulationPeriodic() {
-        simSystem.update(0.02);
-    }
+   
 }

@@ -50,15 +50,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     controller.a().onTrue(turn180);
-    if ((int) Math.round(Robot.flywheel.positionDeg) == 180){
-      turn180.isFinished();
-      System.out.println("command finished");
-    }
     controller.b().onTrue(turn90);
-    if ((int) Math.round(Robot.flywheel.positionDeg) == 90){
-      turn90.isFinished();
-      System.out.println("command finished");
-    }
   }
 
   /**

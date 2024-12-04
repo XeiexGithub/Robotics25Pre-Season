@@ -4,10 +4,11 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Wheel;
-
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,12 +17,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Turn extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private double setpoint;
-  private double kP = 0.3;
-  private double kD = 0.015;
-  private double previouserror;
   private double error;
+  private PIDController pidController = new PIDController(Constants.TurningConstants.turningkP,0,Constants.TurningConstants.turningkD);
 
-  
   /**
    * Creates a new ExampleCommand.
    *
@@ -30,6 +28,7 @@ public class Turn extends Command {
   public Turn(double setpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.setpoint = setpoint;
+    pidController.enableContinuousInput(0, 2*Math.PI);
     addRequirements(Robot.flywheel);
   }
 
@@ -37,26 +36,26 @@ public class Turn extends Command {
   @Override
   public void initialize() {
     // Have a Command to set the position of the flywheel! Use PID!
-    SmartDashboard.putNumber("kP", kP);
+    SmartDashboard.putNumber("kP", Constants.TurningConstants.turningkP);
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    previouserror = error;
-    error = setpoint - Robot.flywheel.getPosition();
-    double deltaerror = error - previouserror;
-    double proportionOutput = error * kP + (deltaerror / 0.02) * kD;
-    Robot.flywheel.setMotorVoltage(proportionOutput);
-    SmartDashboard.putNumber("error", error / (2 * Math.PI * 360));
-    
+    for (int i = 0; i < 4; i++){
+      double proportionOutput = pidController.calculate(Robot.flywheel.getPosition(i), setpoint);
+      Robot.flywheel.setMotorVoltage(proportionOutput, i);
+      SmartDashboard.putNumber("error: " +i, error / (2 * Math.PI * 360));
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.flywheel.setMotorVoltage(0);
+    for (int i = 0; i < 4; i++){
+      Robot.flywheel.setMotorVoltage(0, i);
+    }
   }
 
   // Returns true when the command should end.
