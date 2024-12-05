@@ -1,23 +1,22 @@
-package frc.robot.subsystems.turning;
+package frc.robot.subsystems.driving;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OperatorConstants;
 
-public class TurningSim implements SwerveIO {
+public class DrivingSim implements DrivingIO {
     private final FlywheelSim simSystem = new FlywheelSim(
         DCMotor.getNEO(1), 6, 0.04);
-
+    
     private double positionRad = 0;
     
-    TurningSim() {
-        System.out.println("FlywheelSim instantiated");
+    DrivingSim() {
+        System.out.println("DriveSim instantiated");
     }
     
     @Override
-    public void updateData(SwerveData data) {
+    public void updateData(DriveData data) {
         simSystem.update(OperatorConstants.loopPeriodSec);
         positionRad += (simSystem.getAngularVelocityRadPerSec() * 0.02);
         data.positionRad = positionRad;
@@ -30,7 +29,6 @@ public class TurningSim implements SwerveIO {
         } else if (voltage > 12 ){
             voltage = 12;
         }
-        voltage = MathUtil.applyDeadband(voltage, 0.05);
         simSystem.setInputVoltage(voltage);
         SmartDashboard.putNumber("applied volts", voltage);
     } 

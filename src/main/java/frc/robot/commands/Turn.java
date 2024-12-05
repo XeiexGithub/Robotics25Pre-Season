@@ -7,7 +7,7 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.driving.Driving;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,25 +37,35 @@ public class Turn extends Command {
   public void initialize() {
     // Have a Command to set the position of the flywheel! Use PID!
     SmartDashboard.putNumber("kP", Constants.TurningConstants.turningkP);
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    for (int i = 0; i < 4; i++){
-      double proportionOutput = pidController.calculate(Robot.flywheel.getPosition(i), setpoint);
-      Robot.flywheel.setMotorVoltage(proportionOutput, i);
-      SmartDashboard.putNumber("error: " +i, error / (2 * Math.PI * 360));
+    if (Robot.isSimulation()) {
+      double proportionOutput = pidController.calculate(Robot.flywheel.getPosition(0), setpoint);
+      Robot.flywheel.setMotorVoltage(proportionOutput, 0);
+      SmartDashboard.putNumber("error", error / (2 * Math.PI * 360));
+    } else {
+      for (int i = 0; i < 4; i++){
+        double proportionOutput = pidController.calculate(Robot.flywheel.getPosition(i), setpoint);
+        Robot.flywheel.setMotorVoltage(proportionOutput, i);
+        SmartDashboard.putNumber("error: " +i, error / (2 * Math.PI * 360));
+      }
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    for (int i = 0; i < 4; i++){
-      Robot.flywheel.setMotorVoltage(0, i);
+    if (Robot.isSimulation()){
+      Robot.flywheel.setMotorVoltage(0, 0);
+    } else {
+      for (int i = 0; i < 4; i++){
+        Robot.flywheel.setMotorVoltage(0, i);
+      }
     }
+    
   }
 
   // Returns true when the command should end.

@@ -5,7 +5,6 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
 import frc.robot.commands.Drive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Turn;
@@ -50,8 +49,8 @@ public class RobotContainer {
   private void configureBindings() {
     controller.a().onTrue(turn180);
     controller.b().onTrue(turn90);
+    Robot.wheel.setDefaultCommand(new Drive(() -> controller.getLeftY()));
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

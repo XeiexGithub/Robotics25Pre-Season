@@ -1,6 +1,6 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.driving;
 
-public interface DriveIO {
+public interface DrivingIO {
     public static class DriveData {
         double positionRad = 0;
     }

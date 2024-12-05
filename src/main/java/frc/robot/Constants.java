@@ -29,7 +29,8 @@ public final class Constants {
   public static class DrivingConstants{
     public static final double driveGearRatio = 6.75;
 
-    public static final double turningkV = 0;
+    public static final double drivingkV = 0;
+    public static final double maxV = 0;
 
     public static final int[] driveMotorIds = {3, 5, 7, 9};
   }

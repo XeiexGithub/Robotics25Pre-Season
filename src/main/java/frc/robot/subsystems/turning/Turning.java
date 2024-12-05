@@ -13,15 +13,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.subsystems.driving.DrivingIO.DriveData;
 import frc.robot.subsystems.turning.SwerveIO.SwerveData;
 
 public class Turning extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-    private SwerveIO[] swerveio;
-    private SwerveData[] data;
+    private SwerveIO[] swerveio = new SwerveIO[4];
+    private SwerveData[] data = new SwerveData[4];
     public Turning() {
       if (Robot.isSimulation()) {
         swerveio[0] = new TurningSim();
+        data[0] = new SwerveData();
       } else {
         for (int i = 0; i < 4; i++){
           swerveio[i] = new TurningSpark(i);
@@ -60,10 +62,16 @@ public class Turning extends SubsystemBase {
 
   @Override
   public void periodic() {
-    for (int i = 0; i < 4; i++){
-      swerveio[i].updateData(data[i]);
-      SmartDashboard.putNumber("positionDeg: " + i, data[i].positionRad * 180/Math.PI);
+    if (Robot.isSimulation()) {
+      swerveio[0].updateData(data[0]);
+      SmartDashboard.putNumber("positionDeg", data[0].positionRad * 180/Math.PI);
+    } else {
+      for (int i = 0; i < 4; i++){
+        swerveio[i].updateData(data[i]);
+        SmartDashboard.putNumber("positionDeg: " + i, data[i].positionRad * 180/Math.PI);
+      }
     }
+    
     // simSystem.update(0.02);
     // position += (simSystem.getAngularVelocityRadPerSec() * 0.02);
     // SmartDashboard.putNumber("positionDeg", position * 180/Math.PI);
