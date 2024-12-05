@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.subsystems.Wheel;
-import frc.robot.subsystems.Turning;
+import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.turning.Turning;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,7 +24,7 @@ import frc.robot.subsystems.Turning;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static final Wheel wheel = new Wheel();
+  public static final Drive wheel = new Drive();
   public static final Turning flywheel = new Turning();
 
   private Command m_autonomousCommand;

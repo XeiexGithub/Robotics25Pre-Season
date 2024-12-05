@@ -7,11 +7,18 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 
-public class Wheel extends SubsystemBase {
+public class Drive extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   private final CANSparkMax motor = new CANSparkMax(22, MotorType.kBrushless);
-  public Wheel() {}
+  public Drive() {
+    if (Robot.isSimulation()){
+      driveio = 
+    } else {
+      driveio = 
+    }
+  }
 
   /**
    * Example command factory method.
@@ -20,7 +27,7 @@ public class Wheel extends SubsystemBase {
    */
 
   public void setMotorVoltage(double speed) {
-    motor.set(speed);
+    
   }
 
   public void stop() {

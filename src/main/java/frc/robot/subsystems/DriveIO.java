@@ -1,11 +1,11 @@
 package frc.robot.subsystems;
 
-public interface SwerveIO {
-    public static class SwerveData {
+public interface DriveIO {
+    public static class DriveData {
         double positionRad = 0;
     }
 
-    public default void updateData(SwerveData data){
+    public default void updateData(DriveData data){
     };
 
     public default void setVoltage(double volts){
