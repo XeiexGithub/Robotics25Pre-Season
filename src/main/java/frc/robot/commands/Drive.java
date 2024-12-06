@@ -43,7 +43,6 @@ public class Drive extends Command {
   @Override
   public void execute() {
     driveSetVelocity = -leftY.get() * DrivingConstants.maxV;
-    double velocity;
     double voltOut = DrivingConstants.drivingkV * driveSetVelocity;
     Robot.wheel.setMotorVoltage(voltOut);
     SmartDashboard.putNumber("driveSetVelocity", driveSetVelocity);

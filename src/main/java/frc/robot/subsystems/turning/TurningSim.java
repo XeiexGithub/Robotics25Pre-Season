@@ -6,14 +6,17 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OperatorConstants;
 
-public class TurningSim implements SwerveIO {
+public class TurningSim implements TurningIO {
     private final FlywheelSim simSystem = new FlywheelSim(
         DCMotor.getNEO(1), 6, 0.04);
 
+    private int index;
+
     private double positionRad = 0;
     
-    TurningSim() {
+    TurningSim(int index) {
         System.out.println("FlywheelSim instantiated");
+        this.index = index;
     }
     
     @Override
@@ -30,8 +33,8 @@ public class TurningSim implements SwerveIO {
         } else if (voltage > 12 ){
             voltage = 12;
         }
-        voltage = MathUtil.applyDeadband(voltage, 0.05);
+        // voltage = MathUtil.applyDeadband(voltage, 0.05);
         simSystem.setInputVoltage(voltage);
-        SmartDashboard.putNumber("applied volts", voltage);
+        SmartDashboard.putNumber("applied volts: " + index, voltage);
     } 
 }

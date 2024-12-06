@@ -10,20 +10,25 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 // 26.191, 137.594, 71.455, 186.943
-public class TurningSpark implements SwerveIO {
+public class TurningSpark implements TurningIO {
     private int absoluteCoderID;
     private int flywheekSparkMaxID;
+    private int index;
     
     private final CANSparkMax flywheekSparkMax;
     private final CANcoder absoluteCoder;
     private final double encoderOffset;
     
     TurningSpark(int index) {
+        this.index = index;
         flywheekSparkMaxID = Constants.TurningConstants.turningMotorIds[index];
-        absoluteCoderID = index + 11;
+        absoluteCoderID = Constants.TurningConstants.turningEncoderIds[index];
+        System.out.println(flywheekSparkMaxID);
+        System.out.println(absoluteCoderID);
         encoderOffset = Constants.TurningConstants.turningEncoderOffsets[index] / 180 * Math.PI;
         flywheekSparkMax = new CANSparkMax(flywheekSparkMaxID, MotorType.kBrushless);
         absoluteCoder = new CANcoder(absoluteCoderID);
+        // flywheekSparkMax.setInverted(true);
         System.out.println("Flywheel SparkMax instantiated");
         // FlywheekSparkMax.getEncoder().setPositionConversionFactor(1/Constants.TurningConstants.turningGearRatio * 2 * (Math.PI));
     }
@@ -47,7 +52,7 @@ public class TurningSpark implements SwerveIO {
             voltage = 12;
         }
         flywheekSparkMax.setVoltage(voltage);
-        SmartDashboard.putNumber("applied volts", voltage);
+        SmartDashboard.putNumber("applied volts: " + index, voltage);
     }
 
     @Override

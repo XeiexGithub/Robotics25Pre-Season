@@ -1,6 +1,6 @@
 package frc.robot.subsystems.turning;
 
-public interface SwerveIO {
+public interface TurningIO {
     public static class SwerveData {
         double positionRad = 0;
     }

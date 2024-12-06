@@ -15,10 +15,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** An example command that uses an example subsystem. */
 public class Turn extends Command {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private double setpoint;
   private double error;
-  private PIDController pidController = new PIDController(Constants.TurningConstants.turningkP,0,Constants.TurningConstants.turningkD);
+  private PIDController pidController = new PIDController(Constants.TurningConstants.turningkP, 0,
+      Constants.TurningConstants.turningkD);
 
   /**
    * Creates a new ExampleCommand.
@@ -28,7 +29,7 @@ public class Turn extends Command {
   public Turn(double setpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.setpoint = setpoint;
-    pidController.enableContinuousInput(0, 2*Math.PI);
+    pidController.enableContinuousInput(0, 2 * Math.PI);
     addRequirements(Robot.flywheel);
   }
 
@@ -42,30 +43,19 @@ public class Turn extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Robot.isSimulation()) {
-      double proportionOutput = pidController.calculate(Robot.flywheel.getPosition(0), setpoint);
-      Robot.flywheel.setMotorVoltage(proportionOutput, 0);
-      SmartDashboard.putNumber("error", error / (2 * Math.PI * 360));
-    } else {
-      for (int i = 0; i < 4; i++){
-        double proportionOutput = pidController.calculate(Robot.flywheel.getPosition(i), setpoint);
-        Robot.flywheel.setMotorVoltage(proportionOutput, i);
-        SmartDashboard.putNumber("error: " +i, error / (2 * Math.PI * 360));
-      }
+    for (int i = 0; i < 4; i++) {
+      double proportionOutput = pidController.calculate(Robot.flywheel.getPosition(i), setpoint);
+      Robot.flywheel.setMotorVoltage(proportionOutput, i);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (Robot.isSimulation()){
-      Robot.flywheel.setMotorVoltage(0, 0);
-    } else {
-      for (int i = 0; i < 4; i++){
-        Robot.flywheel.setMotorVoltage(0, i);
-      }
+    for (int i = 0; i < 4; i++) {
+      Robot.flywheel.setMotorVoltage(0, i);
     }
-    
+
   }
 
   // Returns true when the command should end.

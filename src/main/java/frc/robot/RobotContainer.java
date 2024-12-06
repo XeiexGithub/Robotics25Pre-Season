@@ -10,6 +10,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Turn;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -29,7 +30,7 @@ public class RobotContainer {
   private final Turn turn90 = new Turn(Math.PI / 2);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController controller = new CommandXboxController(0);
+  final CommandXboxController controller = new CommandXboxController(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -50,6 +51,8 @@ public class RobotContainer {
     controller.a().onTrue(turn180);
     controller.b().onTrue(turn90);
     Robot.wheel.setDefaultCommand(new Drive(() -> controller.getLeftY()));
+    controller.x().onTrue(Commands.runOnce(() -> Robot.wheel.setMotorVoltage(12), Robot.wheel))
+    .onFalse(Commands.runOnce(() -> Robot.wheel.setMotorVoltage(0), Robot.wheel));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

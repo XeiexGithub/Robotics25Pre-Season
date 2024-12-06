@@ -20,17 +20,20 @@ public final class Constants {
   public static class TurningConstants{
     public static final double turningGearRatio = 12.8;
 
-    public static final double turningkP = 4;
-    public static final double turningkD = 0.02;
+    public static final double turningkP = 0.3;
+    public static final double turningkD = 0.0;
 
     public static final int[] turningMotorIds = {4, 6, 8, 10};
+    public static final int[] turningEncoderIds = {11, 12, 13, 14};
     public static final double[] turningEncoderOffsets = {26.191, 137.594, 71.455, 186.943};
   }
   public static class DrivingConstants{
     public static final double driveGearRatio = 6.75;
 
-    public static final double drivingkV = 0;
-    public static final double maxV = 0;
+    public static final int driveWheelRadius = 2;
+
+    public static final double drivingkV = 0.01;
+    public static final double maxV = 15;
 
     public static final int[] driveMotorIds = {3, 5, 7, 9};
   }
