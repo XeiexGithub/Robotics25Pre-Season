@@ -20,7 +20,7 @@ public final class Constants {
   public static class TurningConstants{
     public static final double turningGearRatio = 12.8;
 
-    public static final double turningkP = 3;
+    public static final double turningkP = 4;
     public static final double turningkD = 0.02;
 
     public static final int[] turningMotorIds = {4, 6, 8, 10};
