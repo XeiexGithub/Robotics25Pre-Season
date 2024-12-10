@@ -8,6 +8,8 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.driving.Driving;
+import frc.robot.subsystems.turning.TurningIO.SwerveData;
+import frc.robot.subsystems.turning.TurningSim;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,8 +20,7 @@ public class Turn extends Command {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private double setpoint;
   private double error;
-  private PIDController pidController = new PIDController(Constants.TurningConstants.turningkP, 0,
-      Constants.TurningConstants.turningkD);
+  private PIDController[] pidController = new PIDController[4];
 
   /**
    * Creates a new ExampleCommand.
@@ -29,7 +30,10 @@ public class Turn extends Command {
   public Turn(double setpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.setpoint = setpoint;
-    pidController.enableContinuousInput(0, 2 * Math.PI);
+    for (int i = 0; i < 4; i++){
+      pidController[i] = new PIDController(Constants.TurningConstants.turningkP, 0,Constants.TurningConstants.turningkD);
+      pidController[i].enableContinuousInput(0, 2 * Math.PI);
+    }
     addRequirements(Robot.flywheel);
   }
 
@@ -44,7 +48,7 @@ public class Turn extends Command {
   @Override
   public void execute() {
     for (int i = 0; i < 4; i++) {
-      double proportionOutput = pidController.calculate(Robot.flywheel.getPosition(i), setpoint);
+      double proportionOutput = pidController[i].calculate(Robot.flywheel.getPosition(i), setpoint);
       Robot.flywheel.setMotorVoltage(proportionOutput, i);
     }
   }
@@ -55,7 +59,6 @@ public class Turn extends Command {
     for (int i = 0; i < 4; i++) {
       Robot.flywheel.setMotorVoltage(0, i);
     }
-
   }
 
   // Returns true when the command should end.
