@@ -23,8 +23,6 @@ public class TurningSpark implements TurningIO {
         this.index = index;
         flywheekSparkMaxID = Constants.TurningConstants.turningMotorIds[index];
         absoluteCoderID = Constants.TurningConstants.turningEncoderIds[index];
-        System.out.println(flywheekSparkMaxID);
-        System.out.println(absoluteCoderID);
         encoderOffset = Constants.TurningConstants.turningEncoderOffsets[index] / 180 * Math.PI;
         flywheekSparkMax = new CANSparkMax(flywheekSparkMaxID, MotorType.kBrushless);
         absoluteCoder = new CANcoder(absoluteCoderID);
