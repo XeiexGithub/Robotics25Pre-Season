@@ -24,18 +24,9 @@ public class DrivingSparkMax implements DrivingIO {
         drivingSparkMax = new CANSparkMax(3, MotorType.kBrushless);
         System.out.println("Driving SparkMax instantiated");
         drivingSparkMax.getEncoder().setPositionConversionFactor(1/Constants.DrivingConstants.driveGearRatio * 2 * (Math.PI));
+        drivingSparkMax.getEncoder().setVelocityConversionFactor((1/Constants.DrivingConstants.driveGearRatio * 2 * (Math.PI))/60.0);
     }
-    
-    private double getAbsoluteTurningPostionRad() {
-        double pos = Units.rotationsToRadians(drivingSparkMax.getEncoder().getPosition()); 
-        while (pos < 0) {
-            pos += Math.PI * 2;
-        }
-        while (pos > 2 * Math.PI){
-            pos -= 2 * Math.PI;
-        }
-        return pos;
-    }
+
 
     @Override
     public void setVoltage(double voltage){
@@ -50,8 +41,8 @@ public class DrivingSparkMax implements DrivingIO {
 
     @Override
     public void updateData(DriveData data) {
-        double positionRad = getAbsoluteTurningPostionRad();
-        data.positionRad = getAbsoluteTurningPostionRad();
-        data.positionReal = positionRad * Units.inchesToMeters(Constants.DrivingConstants.driveWheelRadius);
+        data.positionRad = drivingSparkMax.getEncoder().getPosition();
+        data.velocity = drivingSparkMax.getEncoder().getVelocity();
+        data.positionReal = data.positionRad * Units.inchesToMeters(Constants.DrivingConstants.driveWheelRadius);
     }
 }
