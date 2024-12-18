@@ -5,14 +5,16 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OperatorConstants;
+import java.util.Random;
 
 public class TurningSim implements TurningIO {
     private final FlywheelSim simSystem = new FlywheelSim(
         DCMotor.getNEO(1), 6, 0.04);
 
     private int index;
-
-    private double positionRad = 0;
+    
+    Random rand = new Random();
+    private double positionRad = rand.nextDouble(Math.PI * 2);;
     
     TurningSim(int index) {
         System.out.println("FlywheelSim instantiated");
