@@ -32,6 +32,10 @@ public class Driving extends SubsystemBase {
   public double getPosition(){
     return data.positionRad; 
   }
+
+  public double getVelocity(){
+    return data.velocity;
+  }
   /**
    * Example command factory method.
    *
