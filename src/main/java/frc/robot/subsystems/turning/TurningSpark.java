@@ -1,5 +1,6 @@
 package frc.robot.subsystems.turning;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
@@ -26,6 +27,8 @@ public class TurningSpark implements TurningIO {
         encoderOffset = Constants.TurningConstants.turningEncoderOffsets[index] / 180 * Math.PI;
         flywheekSparkMax = new CANSparkMax(flywheekSparkMaxID, MotorType.kBrushless);
         absoluteCoder = new CANcoder(absoluteCoderID);
+        
+        flywheekSparkMax.setIdleMode(IdleMode.kBrake);
         // flywheekSparkMax.setInverted(true);
         System.out.println("Flywheel SparkMax instantiated");
         // FlywheekSparkMax.getEncoder().setPositionConversionFactor(1/Constants.TurningConstants.turningGearRatio * 2 * (Math.PI));

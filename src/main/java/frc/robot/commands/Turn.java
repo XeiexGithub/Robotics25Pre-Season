@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Turn extends Command {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private double setpoint;
-  private double error;
+  // private double error;
   private PIDController[] pidController = new PIDController[4];
 
   /**
