@@ -28,6 +28,7 @@ public class RobotContainer {
 
   private final Turn turn180 = new Turn(Math.PI);
   private final Turn turn90 = new Turn(Math.PI / 2);
+  private final Turn arm90 = new Turn(Math.PI / 2);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final CommandXboxController controller = new CommandXboxController(0);
@@ -50,6 +51,7 @@ public class RobotContainer {
   private void configureBindings() {
     controller.a().onTrue(turn180);
     controller.b().onTrue(turn90);
+    controller.x().onTrue(arm90);
     Robot.wheel.setDefaultCommand(new Drive(() -> controller.getLeftY()));
     controller.x().onTrue(Commands.runOnce(() -> Robot.wheel.setMotorVoltage(12), Robot.wheel))
     .onFalse(Commands.runOnce(() -> Robot.wheel.setMotorVoltage(0), Robot.wheel));

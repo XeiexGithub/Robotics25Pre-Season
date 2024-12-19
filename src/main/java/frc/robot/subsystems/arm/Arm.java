@@ -13,8 +13,7 @@ public class Arm extends SubsystemBase {
   private ArmData armData;
 
   PIDController pidController = new PIDController(ArmConstants.armControl.armkP, 0, ArmConstants.armControl.armkD);
-  ArmFeedforward armFeedForward = new ArmFeedforward(ArmConstants.armControl.armkS, ArmConstants.armControl.armkG, ArmConstants.armControl.armkV, ArmConstants.armControl.armkA);
-  
+
   public Arm() {
     if (Robot.isSimulation()) {
       armIO = new ArmSim();
@@ -27,7 +26,7 @@ public class Arm extends SubsystemBase {
   }
 
   public void moveToSetpoint(double setpoint){
-    armIO.setVoltage(pidController.calculate(getPosition(), setpoint));
+    armIO.setVoltage(pidController.calculate(getPosition(), setpoint) + ArmConstants.armControl.armkG);
   }
 
   public void stop() {
@@ -37,7 +36,8 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     armIO.updateData(armData);
-    if (armData.positionRad == 170 || armData.positionRad == -170 ){
+    double positionDeg = armData.positionRad * 180/Math.PI;
+    if (positionDeg == 170 || positionDeg == -170 ){
       stop();
     }
   }

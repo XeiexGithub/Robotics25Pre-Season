@@ -7,12 +7,17 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OperatorConstants;
 
 public class ArmSim implements ArmIO {
-    Random rand = new Random();
-    private double positionRad = MathUtil.clamp(rand.nextDouble(Math.PI * 2), -170, 170);
+    // Random rand = new Random();
+    // private double positionRad = MathUtil.clamp(rand.nextDouble(Math.PI * 2), -170, 170);
+
+    Mechanism2d mech = new Mechanism2d(3, 3);
+    MechanismRoot2d root = mech.getRoot("arm", 2, 0);
 
     private SingleJointedArmSim armSimSystem = new SingleJointedArmSim(
         DCMotor.getNEO(2),
@@ -27,8 +32,7 @@ public class ArmSim implements ArmIO {
     @Override
     public void updateData(ArmData armData) {
         armSimSystem.update(OperatorConstants.loopPeriodSec);
-        positionRad += (armSimSystem.getVelocityRadPerSec() * 0.02);
-        armData.positionRad = positionRad;
+        armData.positionRad = armSimSystem.getAngleRads();
     }
 
     @Override
@@ -40,5 +44,5 @@ public class ArmSim implements ArmIO {
         }
         armSimSystem.setInputVoltage(voltage);
         SmartDashboard.putNumber("applied volts", voltage);
-    } 
+    }
 }
