@@ -8,8 +8,5 @@ public final class ArmConstants {
         static final double armkP = 0;
         static final double armkD = 0;
         static final double armkG = 0;
-        static final double armkS = 0;
-        static final double armkV = 0;
-        static final double armkA = 0;
     }
 }
