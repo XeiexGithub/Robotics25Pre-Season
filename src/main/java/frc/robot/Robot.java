@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.driving.Driving;
 import frc.robot.subsystems.turning.Turning;
 
@@ -26,6 +27,7 @@ import frc.robot.subsystems.turning.Turning;
 public class Robot extends TimedRobot {
   public static final Driving wheel = new Driving();
   public static final Turning flywheel = new Turning();
+  public static final Arm arm = new Arm();
 
   private Command m_autonomousCommand;
 
