@@ -1,7 +1,8 @@
 {
   "NTProvider": {
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/arm mechanism": "Mechanism2d"
     }
   },
   "NetworkTables Info": {

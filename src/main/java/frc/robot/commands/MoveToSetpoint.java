@@ -17,6 +17,7 @@ public class MoveToSetpoint extends Command {
      */
     public MoveToSetpoint(double setpoint) {
         this.setpoint = setpoint;
+        addRequirements(Robot.arm);
     }
 
     // Called when the command is initially scheduled.

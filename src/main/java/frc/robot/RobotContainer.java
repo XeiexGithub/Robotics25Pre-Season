@@ -5,9 +5,11 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Drive;
+// import frc.robot.commands.Drive;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.MoveToSetpoint;
 import frc.robot.commands.Turn;
+// import frc.robot.commands.Turn;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -28,7 +30,8 @@ public class RobotContainer {
 
   private final Turn turn180 = new Turn(Math.PI);
   private final Turn turn90 = new Turn(Math.PI / 2);
-  private final Turn arm90 = new Turn(Math.PI / 2);
+  private final MoveToSetpoint arm45 = new MoveToSetpoint(Math.PI/4);
+  private final MoveToSetpoint arm90 = new MoveToSetpoint(Math.PI/2);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final CommandXboxController controller = new CommandXboxController(0);
@@ -49,12 +52,13 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    controller.a().onTrue(turn180);
-    controller.b().onTrue(turn90);
-    controller.x().onTrue(arm90);
-    Robot.wheel.setDefaultCommand(new Drive(() -> controller.getLeftY()));
-    controller.x().onTrue(Commands.runOnce(() -> Robot.wheel.setMotorVoltage(12), Robot.wheel))
-    .onFalse(Commands.runOnce(() -> Robot.wheel.setMotorVoltage(0), Robot.wheel));
+    // controller.a().onTrue(turn180);
+    // controller.b().onTrue(turn90);
+    controller.a().onTrue(turn90);
+    controller.b().onTrue(turn180);
+    // Robot.wheel.setDefaultCommand(new Drive(() -> controller.getLeftY()));
+    // controller.x().onTrue(Commands.runOnce(() -> Robot.wheel.setMotorVoltage(12), Robot.wheel))
+    // .onFalse(Commands.runOnce(() -> Robot.wheel.setMotorVoltage(0), Robot.wheel));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

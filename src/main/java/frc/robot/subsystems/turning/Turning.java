@@ -18,25 +18,26 @@ import frc.robot.subsystems.turning.TurningIO.SwerveData;
 
 public class Turning extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-    private TurningIO[] swerveio = new TurningIO[4];
-    private SwerveData[] data = new SwerveData[4];
-    public Turning() {
-      if (Robot.isSimulation()) {
-        for (int i = 0; i < 4; i++){
-          swerveio[i] = new TurningSim(i);
-          data[i] = new SwerveData();
-        }
-      } else {
-        for (int i = 0; i < 4; i++){
-          swerveio[i] = new TurningSpark(i);
-          data[i] = new SwerveData();
-        }
+  private TurningIO[] swerveio = new TurningIO[4];
+  private SwerveData[] data = new SwerveData[4];
+
+  public Turning() {
+    if (Robot.isSimulation()) {
+      for (int i = 0; i < 4; i++) {
+        swerveio[i] = new TurningSim(i);
+        data[i] = new SwerveData();
+      }
+    } else {
+      for (int i = 0; i < 4; i++) {
+        swerveio[i] = new TurningSpark(i);
+        data[i] = new SwerveData();
       }
     }
+  }
 
-    public double getPosition(int index){
-        return data[index].positionRad; 
-    }
+  public double getPosition(int index) {
+    return data[index].positionRad;
+  }
 
   /**
    * Example command factory method.
@@ -53,7 +54,8 @@ public class Turning extends SubsystemBase {
   }
 
   /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+   * An example method querying a boolean state of the subsystem (for example, a
+   * digital sensor).
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
@@ -64,11 +66,13 @@ public class Turning extends SubsystemBase {
 
   @Override
   public void periodic() {
-    for (int i = 0; i < 4; i++){
+    double[] positions = new double[8];
+    for (int i = 0; i < 4; i++) {
       swerveio[i].updateData(data[i]);
-      SmartDashboard.putNumber("positionDeg: " + i, data[i].positionRad * 180/Math.PI);
+      positions[i * 2] = data[i].positionRad * 180 / Math.PI;
     }
-    
+    SmartDashboard.putNumberArray("Swerve States", positions);
+
     // simSystem.update(0.02);
     // position += (simSystem.getAngularVelocityRadPerSec() * 0.02);
     // SmartDashboard.putNumber("positionDeg", position * 180/Math.PI);
