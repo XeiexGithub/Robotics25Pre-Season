@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Drive;
 // import frc.robot.commands.Drive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.MoveToSetpoint;
@@ -33,6 +34,7 @@ public class RobotContainer {
   private final MoveToSetpoint arm45 = new MoveToSetpoint(Math.PI/4);
   private final MoveToSetpoint arm90 = new MoveToSetpoint(Math.PI/2);
 
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final CommandXboxController controller = new CommandXboxController(0);
 
@@ -56,7 +58,9 @@ public class RobotContainer {
     // controller.b().onTrue(turn90);
     controller.a().onTrue(turn90);
     controller.b().onTrue(turn180);
-    // Robot.wheel.setDefaultCommand(new Drive(() -> controller.getLeftY()));
+    controller.x().onTrue(arm45);
+    controller.y().onTrue(arm90);
+    Robot.wheel.setDefaultCommand(new Drive(() -> controller.getLeftY()));
     // controller.x().onTrue(Commands.runOnce(() -> Robot.wheel.setMotorVoltage(12), Robot.wheel))
     // .onFalse(Commands.runOnce(() -> Robot.wheel.setMotorVoltage(0), Robot.wheel));
   }

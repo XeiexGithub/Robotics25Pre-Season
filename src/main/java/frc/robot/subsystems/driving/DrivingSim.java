@@ -13,7 +13,7 @@ public class DrivingSim implements DrivingIO {
     
     private double positionRad = 0;
     
-    DrivingSim() {
+    DrivingSim(int index) {
         System.out.println("DriveSim instantiated");
     }
     

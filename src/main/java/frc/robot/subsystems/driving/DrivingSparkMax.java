@@ -9,30 +9,30 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+
 // 26.191, 137.594, 71.455, 186.943
 public class DrivingSparkMax implements DrivingIO {
     // private int absoluteCoderID;
-    // private int flywheekSparkMaxID;
-    
+    private int driveSparkMaxID;
+
     private final CANSparkMax drivingSparkMax;
     // private final double encoderOffset;
-    
-    DrivingSparkMax() {
-        // flywheekSparkMaxID = Constants.TurningConstants.turningMotorIds[index];
-        // absoluteCoderID = index + 11;
-        // encoderOffset = Constants.TurningConstants.turningEncoderOffsets[index] / 180 * Math.PI;
-        drivingSparkMax = new CANSparkMax(3, MotorType.kBrushless);
+
+    DrivingSparkMax(int index) {
+        driveSparkMaxID = Constants.DrivingConstants.driveMotorIds[index];;
+        drivingSparkMax = new CANSparkMax(driveSparkMaxID, MotorType.kBrushless);
         System.out.println("Driving SparkMax instantiated");
-        drivingSparkMax.getEncoder().setPositionConversionFactor(1/Constants.DrivingConstants.driveGearRatio * 2 * (Math.PI));
-        drivingSparkMax.getEncoder().setVelocityConversionFactor((1/Constants.DrivingConstants.driveGearRatio * 2 * (Math.PI))/60.0);
+        drivingSparkMax.getEncoder()
+                .setPositionConversionFactor(1 / Constants.DrivingConstants.driveGearRatio * 2 * (Math.PI));
+        drivingSparkMax.getEncoder()
+                .setVelocityConversionFactor((1 / Constants.DrivingConstants.driveGearRatio * 2 * (Math.PI)) / 60.0);
     }
 
-
     @Override
-    public void setVoltage(double voltage){
-        if (voltage < -12){
+    public void setVoltage(double voltage) {
+        if (voltage < -12) {
             voltage = -12;
-        } else if (voltage > 12 ){
+        } else if (voltage > 12) {
             voltage = 12;
         }
         drivingSparkMax.setVoltage(voltage);

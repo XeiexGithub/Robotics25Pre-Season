@@ -29,7 +29,7 @@ public class ArmSim implements ArmIO {
         Units.inchesToMeters(21.1),
         Units.degreesToRadians(-170),
         Units.degreesToRadians(170),
-        true,
+        false,
         positionRad);
 
     @Override

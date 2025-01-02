@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DrivingConstants;
 import frc.robot.Robot;
 import frc.robot.subsystems.driving.DrivingIO.DriveData;
 import frc.robot.subsystems.turning.TurningIO;
@@ -18,36 +19,42 @@ public class Driving extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   // private final CANSparkMax motor = new CANSparkMax(22, MotorType.kBrushless);
 
-  private DrivingIO driveio;
-  private DriveData data = new DriveData();
+  private DrivingIO[] driveio = new DrivingIO[4];
+  private DriveData[] data = new DriveData[4];
 
   public Driving() {
     if (Robot.isSimulation()){
-      driveio = new DrivingSim();
+      for (int i = 0; i < 4; i++){
+        driveio[i] = new DrivingSim(i);
+        data[i] = new DriveData();
+      }
     } else {
-      driveio = new DrivingSparkMax();
+      for (int i = 0; i < 4; i++){
+        driveio[i] = new DrivingSparkMax(i);
+      }
     }
   }
 
-  public double getPosition(){
-    return data.positionRad; 
+  public double getPosition(int index){
+    return data[index].positionRad; 
   }
 
-  public double getVelocity(){
-    return data.velocity;
-  }
+  // public double getVelocity(){
+  //   return data.velocity;
+  // }
+  
   /**
    * Example command factory method.
    *
    * @return a command
    */
 
-  public void setMotorVoltage(double speed) {
-    driveio.setVoltage(speed);
+  public void setMotorVoltage(int index, double setVelocity) {
+    double speed = DrivingConstants.drivingkV * setVelocity;
+    driveio[index].setVoltage(speed);
   }
 
   public void stop() {
-    
   }
 
   /**
@@ -63,9 +70,13 @@ public class Driving extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    driveio.updateData(data);
-    SmartDashboard.putNumber("drivePositionDeg", data.positionRad * 180/Math.PI);
-    SmartDashboard.putNumber("drivePostionReal", data.positionReal);
+    for (int i = 0; i < 4; i++){
+      driveio[i].updateData(data[i]);
+      SmartDashboard.putNumber("drivePositionDeg: " + i, data[i].positionRad * 180/Math.PI);
+      SmartDashboard.putNumber("drivePostionReal: " + i, data[i].positionReal);
+    }
+    // SmartDashboard.putNumber("driveSetVelocity", data.driveSetVelocity);
+    // SmartDashboard.putNumber("voltsOut", voltOut);
   }
 
   @Override

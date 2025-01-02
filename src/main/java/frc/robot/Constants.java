@@ -32,7 +32,7 @@ public final class Constants {
 
     public static final int driveWheelRadius = 2;
 
-    public static final double drivingkV = 0.01;
+    public static final double drivingkV = 0.1;
     public static final double maxV = 15;
 
     public static final int[] driveMotorIds = {3, 5, 7, 9};
